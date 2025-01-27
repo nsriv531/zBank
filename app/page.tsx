@@ -16,7 +16,7 @@ export default function Login() {
         </div>
         <div className="relative z-10 text-center">
           <Image
-            src="/zbank-logo.svg" // Replace with your logo
+            src="https://raw.githubusercontent.com/nsriv531/zbank-image/refs/heads/main/zbank.jpg" // Replace with your logo
             alt="ZBank Logo"
             width={120}
             height={120}
