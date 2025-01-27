@@ -1,101 +1,100 @@
 import Image from "next/image";
 
-export default function Home() {
+export default function Login() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
+      {/* Left Side - Background with Logo */}
+      <div className="relative flex items-center justify-center bg-gradient-to-br from-blue-900 to-blue-600 text-white">
+        <div className="absolute inset-0">
+          <Image
+            src="/background-image.jpg" // Replace with your image
+            alt="Background"
+            layout="fill"
+            objectFit="cover"
+            className="opacity-60"
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <div className="relative z-10 text-center">
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/zbank-logo.svg" // Replace with your logo
+            alt="ZBank Logo"
+            width={120}
+            height={120}
+            className="mx-auto"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <h1 className="text-3xl font-bold mt-4">Secure Sign-In</h1>
+          <p className="text-lg font-light">ZBank Online Banking</p>
+        </div>
+      </div>
+
+      {/* Right Side - Login Form */}
+      <div className="flex items-center justify-center p-6 bg-gray-50">
+        <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">Sign In</h2>
+          <form className="space-y-4">
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Client Card or Username
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+            <div className="flex items-center">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-600"
+              >
+                Save client card or username
+              </label>
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Next
+            </button>
+          </form>
+          <div className="mt-4 text-sm">
+            <a
+              href="#"
+              className="block text-blue-600 hover:underline"
+            >
+              Recover Your Username
+            </a>
+            <a
+              href="#"
+              className="block text-blue-600 hover:underline"
+            >
+              Enroll in Online Banking
+            </a>
+          </div>
+          <hr className="my-6 border-gray-200" />
+          <p className="text-sm text-gray-600">
+            Need help?{" "}
+            <a
+              href="#"
+              className="text-blue-600 hover:underline font-medium"
+            >
+              Contact Support
+            </a>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
