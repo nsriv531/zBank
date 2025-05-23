@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { useEffect } from "react";
-// pages/_app.js or _app.tsx
+import Link from "next/link";
+
 export default function Login() {
   return (
     <>
@@ -41,27 +41,27 @@ export default function Login() {
                 >
                   Client Card or Username
                 </label>
-            <input
-  type="text"
-  id="username"
-  name="username"
-  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
-  placeholder="Enter your username"
-  required
-/>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
+                  placeholder="Enter your username"
+                  required
+                />
               </div>
 
               <div>
-            <input
-  type="text"
-  id="username"
-  name="username"
-  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
-  placeholder="Enter your password"
-  required
-/>
+                <input
+                  type="text"
+                  id="password"
+                  name="password"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-black"
+                  placeholder="Enter your password"
+                  required
+                />
               </div>
-              
+
               <div className="flex items-center">
                 <input
                   id="remember-me"
@@ -76,19 +76,28 @@ export default function Login() {
                   Save client card or username
                 </label>
               </div>
+
+              
+<div className="flex items-center">
               <button
                 type="submit"
                 className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 Login
               </button>
-              <button
-                type="submit"
-                className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                Sign Up
-              </button>
+              {/* Wrapped "Sign Up" button with Link */}
+              <Link href="/signup">
+                <button
+                  type="button"
+                  className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Sign Up
+                </button>
+              </Link>
+            </div>
+
             </form>
+
             <div className="mt-4 text-sm">
               <a href="#" className="block text-blue-600 hover:underline">
                 Recover Your Username
@@ -100,10 +109,7 @@ export default function Login() {
             <hr className="my-6 border-gray-200" />
             <p className="text-sm text-gray-600">
               Need help?{" "}
-              <a
-                href="#"
-                className="text-blue-600 hover:underline font-medium"
-              >
+              <a href="#" className="text-blue-600 hover:underline font-medium">
                 Contact Support
               </a>
             </p>
