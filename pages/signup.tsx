@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "../lib/supabaseClient";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -19,6 +20,23 @@ export default function SignUp() {
     // Validation logic here
     console.log(formData);
   };
+
+//  const [accounts, setAccounts] = useState<any[]>([]);
+
+// useEffect(() => {
+//   const fetchAccounts = async () => {
+//     const { data, error } = await supabase.from("accounts").select("*");
+
+//     if (error) {
+//       console.error("Supabase Fetch Error:", error.message);
+//     } else {
+//       console.log("Fetched Accounts:", data);
+//       setAccounts(data || []);
+//     }
+//   };
+
+//   fetchAccounts();
+// }, []);
 
   return (
     <>
@@ -93,6 +111,18 @@ export default function SignUp() {
                 Sign In
               </a>
             </p>
+
+            {/* 👇 Add this block just below the paragraph
+<div className="mt-6">
+  <h3 className="text-sm font-semibold text-gray-700 mb-2">Accounts Table (Debug)</h3>
+  <div className="bg-gray-100 text-sm p-2 rounded max-h-48 overflow-y-auto">
+    {accounts.length > 0 ? (
+      <pre>{JSON.stringify(accounts, null, 2)}</pre>
+    ) : (
+      <p className="text-gray-500">No accounts found or still loading...</p>
+    )}
+  </div>
+</div> */}
           </div>
         </div>
       </div>
