@@ -7,6 +7,7 @@ export default function SignUp() {
     lastName: "",
     email: "",
     confirmEmail: "",
+    username: "",
     password: "",
     confirmPassword: "",
   });
@@ -15,11 +16,69 @@ export default function SignUp() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Validation logic here
-    console.log(formData);
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const {
+    firstName,
+    lastName,
+    email,
+    confirmEmail,
+    username,
+    password,
+    confirmPassword,
+  } = formData;
+
+  // Basic validation
+  if (email !== confirmEmail) {
+    alert("Emails do not match.");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match.");
+    return;
+  }
+
+  // Insert into 'accounts' table
+  const { data: accountData, error: accountError } = await supabase
+    .from("accounts")
+    .insert([{ username, password }]);
+
+  if (accountError) {
+    console.error("Error inserting into accounts:", accountError.message);
+    return;
+  }
+
+  // Insert into 'accountdetails' table
+  const { error: detailsError } = await supabase.from("accountdetails").insert([
+    {
+      firstname: firstName,
+      lastname: lastName,
+      email,
+    },
+  ]);
+
+  if (detailsError) {
+    console.error("Error inserting into accountdetails:", detailsError.message);
+    return;
+  }
+
+  console.log("Account created successfully.");
+  alert("Account successfully created!");
+
+  // Reset the form
+  setFormData({
+    firstName: "",
+    lastName: "",
+    email: "",
+    confirmEmail: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
+};
+
 
 //  const [accounts, setAccounts] = useState<any[]>([]);
 
@@ -70,6 +129,7 @@ export default function SignUp() {
                   name: "confirmEmail",
                   type: "email",
                 },
+                { label: "Username", name: "username"},
                 { label: "Password", name: "password", type: "password" },
                 {
                   label: "Confirm Password",
