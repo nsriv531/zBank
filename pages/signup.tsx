@@ -16,7 +16,7 @@ export default function SignUp() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   const {
@@ -40,17 +40,54 @@ export default function SignUp() {
     return;
   }
 
-  // Insert into 'accounts' table
-  const { data: accountData, error: accountError } = await supabase
+  // Check if username exists in accounts
+  const { data: existingUsername, error: usernameCheckError } = await supabase
     .from("accounts")
-    .insert([{ username, password }]);
+    .select("username")
+    .eq("username", username)
+    .maybeSingle();
 
-  if (accountError) {
-    console.error("Error inserting into accounts:", accountError.message);
+  // Check if email exists in accountdetails
+  const { data: existingEmail, error: emailCheckError } = await supabase
+    .from("accountdetails")
+    .select("email")
+    .eq("email", email)
+    .maybeSingle();
+
+  if (usernameCheckError || emailCheckError) {
+    alert("There was an error checking uniqueness. Please try again.");
     return;
   }
 
-  // Insert into 'accountdetails' table
+  const usernameExists = !!existingUsername;
+  const emailExists = !!existingEmail;
+
+  if (usernameExists && emailExists) {
+    alert("Both username and email are already in use.");
+    return;
+  } else if (usernameExists) {
+    alert("Username is already in use.");
+    return;
+  } else if (emailExists) {
+    alert("Email is already in use.");
+    return;
+  }
+
+  // Proceed to insert into 'accounts'
+  const { error: accountError } = await supabase.from("accounts").insert([
+    {
+      username,
+      password,
+    },
+  ]);
+
+  if (accountError) {
+    console.error("Error inserting into accounts:", accountError.message);
+    alert("Failed to create account.");
+    return;
+  }
+
+  // Insert into 'accountdetails'
   const { error: detailsError } = await supabase.from("accountdetails").insert([
     {
       firstname: firstName,
@@ -61,13 +98,14 @@ export default function SignUp() {
 
   if (detailsError) {
     console.error("Error inserting into accountdetails:", detailsError.message);
+    alert("Failed to store account details.");
     return;
   }
 
-  console.log("Account created successfully.");
   alert("Account successfully created!");
+  console.log("Account created successfully.");
 
-  // Reset the form
+  // Reset form
   setFormData({
     firstName: "",
     lastName: "",
