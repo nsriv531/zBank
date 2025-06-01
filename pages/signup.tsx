@@ -40,14 +40,14 @@ const handleSubmit = async (e: React.FormEvent) => {
     return;
   }
 
-  // Check if username exists in accounts
+  // Check uniqueness of username
   const { data: existingUsername, error: usernameCheckError } = await supabase
     .from("accounts")
     .select("username")
     .eq("username", username)
     .maybeSingle();
 
-  // Check if email exists in accountdetails
+  // Check uniqueness of email
   const { data: existingEmail, error: emailCheckError } = await supabase
     .from("accountdetails")
     .select("email")
@@ -59,21 +59,18 @@ const handleSubmit = async (e: React.FormEvent) => {
     return;
   }
 
-  const usernameExists = !!existingUsername;
-  const emailExists = !!existingEmail;
-
-  if (usernameExists && emailExists) {
+  if (existingUsername && existingEmail) {
     alert("Both username and email are already in use.");
     return;
-  } else if (usernameExists) {
+  } else if (existingUsername) {
     alert("Username is already in use.");
     return;
-  } else if (emailExists) {
+  } else if (existingEmail) {
     alert("Email is already in use.");
     return;
   }
 
-  // Proceed to insert into 'accounts'
+  // Insert into 'accounts'
   const { error: accountError } = await supabase.from("accounts").insert([
     {
       username,
@@ -87,12 +84,13 @@ const handleSubmit = async (e: React.FormEvent) => {
     return;
   }
 
-  // Insert into 'accountdetails'
+  // Insert into 'accountdetails' with unverified status
   const { error: detailsError } = await supabase.from("accountdetails").insert([
     {
       firstname: firstName,
       lastname: lastName,
       email,
+      verified_status: false,
     },
   ]);
 
@@ -102,8 +100,26 @@ const handleSubmit = async (e: React.FormEvent) => {
     return;
   }
 
-  alert("Account successfully created!");
-  console.log("Account created successfully.");
+  // 📨 Trigger email verification
+  try {
+    const res = await fetch("/api/sendVerification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, firstName }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to send verification email");
+    }
+  } catch (err) {
+    console.error("Email send error:", err);
+    alert("Account created, but failed to send verification email.");
+    return;
+  }
+
+  alert("Account successfully created! Please check your email to verify your account.");
 
   // Reset form
   setFormData({
@@ -116,6 +132,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     confirmPassword: "",
   });
 };
+
 
 
 //  const [accounts, setAccounts] = useState<any[]>([]);
